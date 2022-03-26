@@ -1,10 +1,11 @@
-[gd_scene load_steps=12 format=2]
+[gd_scene load_steps=13 format=2]
 
 [ext_resource path="res://modelos_circuitos/pastelITO.tscn" type="PackedScene" id=1]
 [ext_resource path="res://coches/coche.tscn" type="PackedScene" id=2]
 [ext_resource path="res://circuitos/meta.gd" type="Script" id=3]
 [ext_resource path="res://tipos/OpenSans-Bold.ttf" type="DynamicFontData" id=4]
 [ext_resource path="res://principal.gd" type="Script" id=5]
+[ext_resource path="res://modelos_circuitos/casa/casika.tscn" type="PackedScene" id=6]
 
 [sub_resource type="BoxShape" id=1]
 extents = Vector3( 5.7224, 1, 8.96951 )
@@ -99,6 +100,11 @@ __meta__ = {
 
 [node name="pastel" parent="." instance=ExtResource( 1 )]
 transform = Transform( 1, 0, 0, 0, 1, 0, 0, 0, 1, 0.734577, 42.1872, -1.79488 )
+
+[node name="EscenarioJardin" type="Spatial" parent="."]
+
+[node name="casika" parent="EscenarioJardin" instance=ExtResource( 6 )]
+transform = Transform( -0.556081, 0, -6.7522, 0, 9.03518, 0, 8.54209, 0, -0.703488, 12.697, 0, 71.2572 )
 
 [connection signal="body_entered" from="meta/StaticBody" to="meta" method="_on_StaticBody_body_entered"]
 [connection signal="timeout" from="meta/Timer" to="meta" method="_on_Timer_timeout"]
