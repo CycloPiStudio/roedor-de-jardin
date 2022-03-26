@@ -1,0 +1,105 @@
+[gd_scene load_steps=12 format=2]
+
+[ext_resource path="res://modelos_circuitos/pastelITO.tscn" type="PackedScene" id=1]
+[ext_resource path="res://coches/coche.tscn" type="PackedScene" id=2]
+[ext_resource path="res://circuitos/meta.gd" type="Script" id=3]
+[ext_resource path="res://tipos/OpenSans-Bold.ttf" type="DynamicFontData" id=4]
+[ext_resource path="res://principal.gd" type="Script" id=5]
+
+[sub_resource type="BoxShape" id=1]
+extents = Vector3( 5.7224, 1, 8.96951 )
+
+[sub_resource type="PrismMesh" id=2]
+left_to_right = 0.0
+size = Vector3( 10, 2, 5 )
+
+[sub_resource type="BoxShape" id=3]
+extents = Vector3( 5.138, 0.1, 2.734 )
+
+[sub_resource type="BoxShape" id=4]
+extents = Vector3( 0.300285, 0.326764, 0.407562 )
+
+[sub_resource type="DynamicFont" id=5]
+size = 350
+font_data = ExtResource( 4 )
+
+[sub_resource type="DynamicFont" id=6]
+size = 50
+font_data = ExtResource( 4 )
+
+[node name="principal" type="Spatial"]
+script = ExtResource( 5 )
+
+[node name="StaticBody" type="StaticBody" parent="."]
+transform = Transform( 0.800543, 0.599275, 0, -0.599275, 0.800543, 0, 0, 0, 1, -49.1314, 41.9474, -22.6692 )
+
+[node name="CollisionShape" type="CollisionShape" parent="StaticBody"]
+shape = SubResource( 1 )
+
+[node name="StaticBody2" type="StaticBody" parent="."]
+transform = Transform( -1.92436, -0.541772, -0.0577527, -0.541528, 1.92522, -0.016252, 0.0599958, 0, -1.9991, 46.868, 73.0408, -73.3932 )
+
+[node name="MeshInstance" type="MeshInstance" parent="StaticBody2"]
+mesh = SubResource( 2 )
+material/0 = null
+
+[node name="CollisionShape" type="CollisionShape" parent="StaticBody2"]
+transform = Transform( 0.981627, 0.190809, 0, -0.190809, 0.981627, 0, 0, 0, 1, 0, -0.117752, 0 )
+shape = SubResource( 3 )
+
+[node name="coche" parent="." instance=ExtResource( 2 )]
+transform = Transform( 0.359117, 0, -0.933292, 0, 1, 0, 0.933292, 0, 0.359117, -6.86992, -1.96407, 66.2634 )
+
+[node name="meta" type="Spatial" parent="."]
+transform = Transform( 0.492162, 0, -29.996, 0, 30, 0, 29.996, 0, 0.492162, -15.9943, 63.8319, 26.9718 )
+script = ExtResource( 3 )
+
+[node name="StaticBody" type="Area" parent="meta"]
+transform = Transform( 1, 0, 0, 0, 1, 0, 0, 0, 1, -0.907175, 0.888691, 0 )
+
+[node name="CollisionShape" type="CollisionShape" parent="meta/StaticBody"]
+transform = Transform( 0.999999, 0, -3.72529e-09, 0, 1, 0, 3.72529e-09, 0, 0.999999, 0.418746, -0.798772, -0.00443268 )
+shape = SubResource( 4 )
+
+[node name="Timer" type="Timer" parent="meta"]
+wait_time = 2.0
+
+[node name="hub-win" type="Node2D" parent="meta"]
+visible = false
+
+[node name="Label" type="Label" parent="meta/hub-win"]
+margin_left = 5.0
+margin_top = 6.0
+margin_right = 1023.0
+margin_bottom = 598.0
+custom_fonts/font = SubResource( 5 )
+text = "WIN"
+align = 1
+valign = 1
+__meta__ = {
+"_edit_use_anchors_": false
+}
+
+[node name="TimerLose" type="Timer" parent="."]
+
+[node name="CanvasLayer" type="CanvasLayer" parent="."]
+
+[node name="LabelTime" type="Label" parent="CanvasLayer"]
+modulate = Color( 0.85098, 0.156863, 0.0823529, 1 )
+margin_left = 736.0
+margin_top = 6.0
+margin_right = 1025.0
+margin_bottom = 135.0
+custom_fonts/font = SubResource( 6 )
+align = 1
+valign = 1
+__meta__ = {
+"_edit_use_anchors_": false
+}
+
+[node name="pastel" parent="." instance=ExtResource( 1 )]
+transform = Transform( 1, 0, 0, 0, 1, 0, 0, 0, 1, 0.734577, 42.1872, -1.79488 )
+
+[connection signal="body_entered" from="meta/StaticBody" to="meta" method="_on_StaticBody_body_entered"]
+[connection signal="timeout" from="meta/Timer" to="meta" method="_on_Timer_timeout"]
+[connection signal="timeout" from="TimerLose" to="." method="_on_TimerLose_timeout"]
